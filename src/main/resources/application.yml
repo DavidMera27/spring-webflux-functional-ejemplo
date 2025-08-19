@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: functional-router
+  data:
+    mongodb:
+      uri: mongodb://davisito:1234root@localhost:27017/proyecto_2_webflux_functional?authSource=admin
+      auto-index-creation: true
