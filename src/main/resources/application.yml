@@ -8,6 +8,6 @@ spring:
 
 jwt:
   secret: 673441e6d97932b815b7058f131cfc10bc12bc8011d5187ab587e5454f426e54
-  expiration: 3600
+  expiration: 360000
   generator:
     issuer: WEBFLUX-FUNCTIONAL

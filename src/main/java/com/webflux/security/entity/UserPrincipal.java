@@ -11,14 +11,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 
-    private String id;
     private String username;
-    private String email;
     transient private String password;
     private List<? extends GrantedAuthority> authorities;
     private boolean accountNonExpired, accountNonLocked, credentialsNonExpired, enabled;

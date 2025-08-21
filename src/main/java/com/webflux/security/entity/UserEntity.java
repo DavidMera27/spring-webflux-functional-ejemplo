@@ -1,5 +1,6 @@
 package com.webflux.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,8 @@ public class UserEntity {
 
     @Indexed(unique = true)
     private String email;
+
+    @JsonIgnore
     private String password;
     private List<String> roles;
 

@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtProvider {
 
-    @Value("$jwt.secret")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("$jwt.expiration")
+    @Value("${jwt.expiration}")
     private String expiration;
 
     @Value("${jwt.generator.issuer}")
@@ -34,7 +34,7 @@ public class JwtProvider {
         Algorithm algorithm = Algorithm.HMAC256(this.secret);
         String username = ((UserPrincipal) authentication.getPrincipal()).getUsername();
 
-        String authorities = authentication.getAuthorities().stream()
+        String authorities = ((UserPrincipal) authentication.getPrincipal()).getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
@@ -43,7 +43,7 @@ public class JwtProvider {
                 .withSubject(username)
                 .withClaim("Authorities", authorities)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(this.expiration)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Long.parseLong(expiration)))
                 .withJWTId(UUID.randomUUID().toString())
                 .withNotBefore(new Date(System.currentTimeMillis()))
                 .sign(algorithm);
