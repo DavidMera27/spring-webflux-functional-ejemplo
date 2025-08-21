@@ -4,6 +4,7 @@ import com.webflux.security.service.UserService;
 import com.webflux.security.wrapper.LoginDTO;
 import com.webflux.security.wrapper.SignupDTO;
 import com.webflux.security.wrapper.TokenDTO;
+import com.webflux.validation.ObjectValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -19,14 +20,16 @@ public class AuthHandler {
 
     private final UserService userService;
 
+    private final ObjectValidator objectValidator;
+
     public Mono<ServerResponse> login(ServerRequest request){
-        Mono<LoginDTO> dtoMono = request.bodyToMono(LoginDTO.class);
+        Mono<LoginDTO> dtoMono = request.bodyToMono(LoginDTO.class).doOnNext(objectValidator::validate);
         return dtoMono
                 .flatMap(dto -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(userService.login(dto), TokenDTO.class));
     }
 
     public Mono<ServerResponse> create(ServerRequest request){
-        Mono<SignupDTO> dtoMono = request.bodyToMono(SignupDTO.class);
+        Mono<SignupDTO> dtoMono = request.bodyToMono(SignupDTO.class).doOnNext(objectValidator::validate);
         return dtoMono
                 .flatMap(dto -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(userService.create(dto), SignupDTO.class));
     }
